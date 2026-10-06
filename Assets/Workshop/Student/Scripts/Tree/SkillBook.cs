@@ -16,8 +16,10 @@ public class SkillBook : MonoBehaviour
 
     public void Start()
     {
-        // 0. สร้าง instance ของ Skill แต่ละตัว
+        // 0. สร้าง instance ของ Skill และตั้งค่าเริ่มต้น
         attack = new Skill("Attack");
+        attack.isAvailable = true;
+
         fireStorm = new Skill("FireStorm");
         fireBlast = new Skill("FireBlast");
         fireBall = new Skill("FireBall");
@@ -31,19 +33,6 @@ public class SkillBook : MonoBehaviour
         //         └── FireBall
         //             └── FireWave
         //                 └── FireExplosion
-
-        // 1. set the nextSkills for each skill
-        attack = new Skill("Attack");
-        attack.isAvailable = true;
-        
-        fireStorm = new Skill("FireStorm");
-        fireBlast = new Skill("fireBlast");
-        fireBall = new Skill("fireBall");
-        fireWave = new Skill("fireWave");
-        fireExplosion = new Skill("fireExplosion");
-
-        fireWave = new Skill("fireWave");
-        fireExplosion = new Skill("fireExplosion");
 
         // [0] Attack -> FireStorm
         attack.nextSkills.Add(fireStorm);
@@ -60,9 +49,7 @@ public class SkillBook : MonoBehaviour
         // [4] FireWave -> FireExplosion
         fireWave.nextSkills.Add(fireExplosion);
 
-        // [5] Attack -> FireStorm (ตั้งค่าสกิลแรก Attack ให้เป็น Available เพื่อเปิดใช้งานเริ่มต้น)
-        attack.isAvailable = true;
-
+        // สร้าง SkillTree
         this.attackSkillTree = new SkillTree(attack);
     }
 
@@ -71,21 +58,11 @@ public class SkillBook : MonoBehaviour
         Keyboard keyboard = Keyboard.current;
         if (keyboard != null && keyboard.pKey.wasPressedThisFrame)
         {
-            attackSkillTree.rootSkill.PrintSkillTreeHierarchy("");
-            //attackSkillTree.rootSkill.PrintSkillTree();
-            Debug.Log("====================================");
-        }
-    }
-    }
-
-    public void Update()
-    {
-        Keyboard keyboard = Keyboard.current;
-        if (keyboard != null && keyboard.pKey.wasPressedThisFrame)
-        {
-            attackSkillTree.rootSkill.PrintSkillTreeHierarchy("");
-            // attackSkillTree.rootSkill.PrintSkillTree();
-            Debug.Log("====================================");
+            if (attackSkillTree != null && attackSkillTree.rootSkill != null)
+            {
+                attackSkillTree.rootSkill.PrintSkillTreeHierarchy("");
+                Debug.Log("====================================");
+            }
         }
     }
 }

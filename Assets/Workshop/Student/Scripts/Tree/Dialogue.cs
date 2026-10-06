@@ -9,15 +9,9 @@ public class DialogueNode
 
     public DialogueNode(string text)
     {
-        public string text;
-        public Dictionary<string, DialogueNode> nexts = new Dictionary<string, DialogueNode>();
-
-        public DialogueNode(string text)
-        {
-            // 1. set the text of the node and initialize the nexts dictionary
-            this.text = text;
-            nexts = new Dictionary<string, DialogueNode>();
-        }
+        // 1. set the text of the node and initialize the nexts dictionary
+        this.text = text;
+        this.nexts = new Dictionary<string, DialogueNode>();
     }
 
     public void AddNext(DialogueNode next, string choiceText)
