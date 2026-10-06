@@ -62,6 +62,7 @@ public class Skill
     {
         // 7. log the name of the skill, isAvailable, and isUnlocked with indentation
         // and call PrintSkillTreeHierarchy() on all nextSkills
+        
 
     }
 
