@@ -33,6 +33,17 @@ public class SkillBook : MonoBehaviour
         //                 └── FireExplosion
 
         // 1. set the nextSkills for each skill
+        attack = new Skill("Attack");
+        attack.isAvailable = true;
+        
+        fireStorm = new Skill("FireStorm");
+        fireBlast = new Skill("fireBlast");
+        fireBall = new Skill("fireBall");
+        fireWave = new Skill("fireWave");
+        fireExplosion = new Skill("fireExplosion");
+
+        fireWave = new Skill("fireWave");
+        fireExplosion = new Skill("fireExplosion");
 
         // [0] Attack -> FireStorm
         attack.nextSkills.Add(fireStorm);
@@ -53,6 +64,18 @@ public class SkillBook : MonoBehaviour
         attack.isAvailable = true;
 
         this.attackSkillTree = new SkillTree(attack);
+    }
+
+    public void Update()
+    {
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard != null && keyboard.pKey.wasPressedThisFrame)
+        {
+            attackSkillTree.rootSkill.PrintSkillTreeHierarchy("");
+            //attackSkillTree.rootSkill.PrintSkillTree();
+            Debug.Log("====================================");
+        }
+    }
     }
 
     public void Update()

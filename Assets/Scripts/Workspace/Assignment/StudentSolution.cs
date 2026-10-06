@@ -18,7 +18,6 @@ namespace Assignment
             if (n <= 1) return 1;
             // recursive case
             return n * Factorial(n - 1);
-            
         }
 
         public int LCT02_RecursiveFibonacci(int n)

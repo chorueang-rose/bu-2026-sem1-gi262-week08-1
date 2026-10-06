@@ -10,7 +10,7 @@ public class DialogueSequen : MonoBehaviour
 
     public void Start()
     {
-        // 1. สร้างและตั้งค่า Dialogue Tree
+        // 1. สร้างและตั้งค่า Dialogue Tree / call LoadConversation() to set up the dialogue tree
         LoadConversations();
 
         // ดึง DialogueUI จาก NPC Component (กรณีที่ยังไม่ได้ลากใส่ใน Inspector)
@@ -46,6 +46,9 @@ public class DialogueSequen : MonoBehaviour
         // [1] add greeting's next node: askForQuest
         greeting.AddNext(askForQuest, "Can you give me a quest?");
 
+        // [1] add greeting's next node: askForQuest
+        greeting.AddNext(askForQuest, "Can you give me a quest?");
+
         // [2] add greeting's next node: directionsVillage
         greeting.AddNext(directionsVillage, "Where is the village?");
 
@@ -60,7 +63,6 @@ public class DialogueSequen : MonoBehaviour
 
         // [6] add askForQuest's next node: goodbye
         askForQuest.AddNext(goodbye, "Maybe later.");
-
         // 5. Set up the root of the dialogue tree
         tree = new DialogueTree(greeting);
     }
