@@ -2375,7 +2375,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 899118628}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d1e2b8b73cff174f85c85aafc79d5f8, type: 3}
+  m_Script: {fileID: 11500000, guid: f9a3b2f86b4d51448b882bc5e4aaf820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUI: {fileID: 909015994}
@@ -3244,9 +3244,21 @@ PrefabInstance:
       value: NPC
       objectReference: {fileID: 0}
     - target: {fileID: 9025232857560474648, guid: f0158faaeec698c4fa8bd648add0080f, type: 3}
+      propertyPath: sequen
+      value: 
+      objectReference: {fileID: 1806821597}
+    - target: {fileID: 9025232857560474648, guid: f0158faaeec698c4fa8bd648add0080f, type: 3}
+      propertyPath: canTalk
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9025232857560474648, guid: f0158faaeec698c4fa8bd648add0080f, type: 3}
       propertyPath: dialogueUI
       value: 
       objectReference: {fileID: 909015994}
+    - target: {fileID: 9025232857560474648, guid: f0158faaeec698c4fa8bd648add0080f, type: 3}
+      propertyPath: mapGenerator
+      value: 
+      objectReference: {fileID: 760521284}
     - target: {fileID: 9025232857560474648, guid: f0158faaeec698c4fa8bd648add0080f, type: 3}
       propertyPath: dialogueSeauen
       value: 
