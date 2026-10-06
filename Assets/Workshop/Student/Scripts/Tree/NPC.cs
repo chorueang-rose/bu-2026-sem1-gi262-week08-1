@@ -8,17 +8,33 @@ public class NPC : Identity
     public DialogueSequen sequen;
     public bool canTalk = true;
 
+    private void Awake()
+    {
+        // ดึง DialogueSequen ที่ติดอยู่บน GameObject เดียวกันมาใช้อัตโนมัติ
+        if (sequen == null)
+        {
+            sequen = GetComponent<DialogueSequen>();
+        }
+    }
+
     public override bool Hit()
     {
-        // ตรวจสอบว่าผู้เล่นมีไอเท็มที่ต้องการหรือไม่
+        // ตรวจสอบว่าสามารถคุยได้หรือไม่
         if (canTalk)
         {
-            dialogueUI.Setup(sequen);
+            if (dialogueUI != null && sequen != null)
+            {
+                dialogueUI.Setup(sequen);
+            }
+            else
+            {
+                Debug.LogWarning("DialogueUI หรือ DialogueSequen ยังไม่ได้ตั้งค่าใน Inspector!");
+            }
             return false;
         }
         else
         {
-            Debug.Log("I not neet to talk to you");
+            Debug.Log("I not need to talk to you");
             return false;
         }
     }

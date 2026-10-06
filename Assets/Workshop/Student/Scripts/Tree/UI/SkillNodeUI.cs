@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // ใช้สำหรับ TextMeshPro ถ้าคุณใช้องค์ประกอบนี้
+using TMPro; // ใช้สำหรับ TextMeshPro
+
 public class SkillNodeUI : MonoBehaviour
 {
     // อ้างอิงถึง Component UI
     [Header("UI References")]
     public Button button;
     public Image background;
-    public TextMeshProUGUI skillNameText; // หรือ public Text skillNameText; ถ้าไม่ใช้ TMP
+    public TextMeshProUGUI skillNameText; // หรือ public Text skillNameText;
 
     // อ้างอิงถึงข้อมูล Skill
     [HideInInspector] public Skill skillData;
@@ -21,16 +22,18 @@ public class SkillNodeUI : MonoBehaviour
     public void Initialize(Skill skill)
     {
         this.skillData = skill;
-        skillNameText.text = skill.name; // หรือ skill.Name; ขึ้นอยู่กับ Skill class
+        skillNameText.text = skill.name;
 
+        // ล้าง Listener เก่าออกก่อน เพื่อป้องกันการทำงานซ้ำซ้อนเวลารีเซ็ต UI
+        button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnNodeClicked);
+
         UpdateUI();
     }
 
     public void UpdateUI()
     {
-        // ต้องมี property isLearned ในคลาส Skill เพื่อระบุสถานะปลดล็อค
-        // สมมติ: skillData.IsLearned เป็น true เมื่อถูก Unlock
+        if (skillData == null) return;
 
         if (skillData.isUnlocked) // ถ้า Skill ถูกเรียนรู้แล้ว (Learned)
         {
@@ -51,13 +54,16 @@ public class SkillNodeUI : MonoBehaviour
 
     private void OnNodeClicked()
     {
-        if (skillData.isAvailable && !skillData.isUnlocked)
+        if (skillData != null && skillData.isAvailable && !skillData.isUnlocked)
         {
             // เรียกเมธอด Unlock() ในคลาส Skill
             skillData.Unlock();
 
-            // แจ้งให้ UI ทุกตัวอัปเดตสถานะ (ถ้ามี)
-            SkillTreeUI.Instance.RefreshAllUI();
+            // แจ้งให้ UI ทุกตัวอัปเดตสถานะ
+            if (SkillTreeUI.Instance != null)
+            {
+                SkillTreeUI.Instance.RefreshAllUI();
+            }
         }
     }
 }

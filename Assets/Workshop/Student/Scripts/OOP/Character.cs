@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 namespace Solution
 {
     public class Character : Identity
@@ -31,6 +30,7 @@ namespace Solution
 
             UpdateSpriteColorBasedOnHealth(); // เริ่มต้นด้วยการตั้งค่าสีตามพลังชีวิตปัจจุบัน
         }
+
         protected void GetRemainEnergy()
         {
             Debug.Log(name + " : " + energy);
@@ -38,30 +38,29 @@ namespace Solution
 
         public virtual void Move(Vector2 direction)
         {
-            if (isFreeze == true)
+            if (isFreeze)
             {
-                GetComponent<SpriteRenderer>().color = Color.white;
                 isFreeze = false;
+                UpdateSpriteColorBasedOnHealth(); // คืนค่าสีตาม HP เมื่อหายจาก Freeze
                 return;
             }
+
             int toX = (int)(positionX + direction.x);
             int toY = (int)(positionY + direction.y);
 
             if (HasPlacement(toX, toY))
             {
-                bool isCanWalkTo = mapGenerator.GetMapData(toX,toY).Hit();
+                bool isCanWalkTo = mapGenerator.GetMapData(toX, toY).Hit();
                 if (isCanWalkTo)
                 {
                     UpdatePosition(toX, toY);
                 }
-
             }
             else
             {
                 UpdatePosition(toX, toY);
                 TakeDamage(1);
             }
-
         }
 
         public virtual void UpdatePosition(int toX, int toY)
@@ -79,7 +78,6 @@ namespace Solution
             var mapData = mapGenerator.GetMapData(x, y);
             return mapData != null;
         }
-      
 
         public virtual void TakeDamage(int Damage)
         {
@@ -88,23 +86,28 @@ namespace Solution
             UpdateSpriteColorBasedOnHealth();
             CheckDead();
         }
+
         public virtual void TakeDamage(int Damage, bool freeze)
         {
             energy -= Damage;
             isFreeze = freeze;
-            GetComponent<SpriteRenderer>().color = Color.blue;
             Debug.Log(name + " Current Energy : " + energy);
-            Debug.Log("you is Freeze");
-            UpdateSpriteColorBasedOnHealth();
+
+            if (isFreeze && spriteRenderer != null)
+            {
+                spriteRenderer.color = Color.blue; // แสดงสีฟ้าเมื่อแช่แข็ง
+                Debug.Log("you are Freeze");
+            }
+            else
+            {
+                UpdateSpriteColorBasedOnHealth();
+            }
+
             CheckDead();
         }
 
-
         public void Heal(int healPoint)
         {
-            // energy += healPoint;
-            // Debug.Log("Current Energy : " + energy);
-            // เราสามารถเรียกใช้ฟังก์ชัน Heal โดยกำหนดให้ Bonuse = false ได้ เพื่อที่จะให้ logic ในการ heal อยู่ที่ฟังก์ชัน Heal อันเดียวและไม่ต้องเขียนซ้ำ
             Heal(healPoint, false);
         }
 
@@ -116,6 +119,7 @@ namespace Solution
                 energy = maxEnergy;
             }
             Debug.Log("Current Energy : " + energy);
+            UpdateSpriteColorBasedOnHealth(); // อัปเดตสี Sprite ใหม่เมื่อได้รับ Heal
         }
 
         protected virtual void CheckDead()
@@ -126,17 +130,18 @@ namespace Solution
                 Destroy(gameObject);
             }
         }
+
         private void UpdateSpriteColorBasedOnHealth()
         {
-            if (spriteRenderer == null) return;
+            if (spriteRenderer == null || isFreeze) return; // หาก Freeze อยู่จะไม่เปลี่ยนสีตาม HP
 
             float healthPercentage = (float)energy / maxEnergy;
 
-            if (healthPercentage > 0.66f) // มากกว่า 66% (เช่น 67%-100%)
+            if (healthPercentage > 0.66f) // มากกว่า 66%
             {
                 spriteRenderer.color = normalColor;
             }
-            else if (healthPercentage > 0.33f) // มากกว่า 33% แต่ไม่เกิน 66% (เช่น 34%-66%)
+            else if (healthPercentage > 0.33f) // มากกว่า 33% แต่ไม่เกิน 66%
             {
                 spriteRenderer.color = damagedColor1;
             }
